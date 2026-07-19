@@ -1,19 +1,17 @@
 [
   {
-    "name": "/mywatchlist",
+    "name": "/mywatchlist with empty watchlist",
     "steps": [
       {
+        "send": { "text": "/mywatchlist" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Display current watchlist with inline controls"
+              "text": "Your watchlist is empty — tap a coin below to add it."
             }
           }
-        ],
-        "send": {
-          "text": "/mywatchlist"
-        }
+        ]
       }
     ]
   }

@@ -5,9 +5,12 @@
       {
         "expect": [
           {
+            "method": "answerCallbackQuery"
+          },
+          {
             "method": "sendMessage",
             "payload": {
-              "text": "Add popular coin to watchlist"
+              "text": "✅ Bitcoin added to your watchlist!"
             }
           }
         ],

@@ -1,17 +1,38 @@
 import { Composer } from "grammy";
+import type { Ctx } from "../bot.js";
+import { inlineButton, inlineKeyboard } from "../toolkit/index.js";
+import { watchlists, type WatchlistItem } from "../storage.js";
 
-// SCAFFOLD — generated from the bot blueprint BEFORE the agent runs.
-// Keep a LIVE registration (.command / .callbackQuery / …) so this feature is
-// never an empty stub. Replace the reply body with real logic + copy; if you
-// change the user-facing text, update tests/specs to match EXACTLY.
-// Do NOT rewrite src/bot.ts — buildBot() already auto-loads this module.
-// Menu: wire this into /start via registerMainMenuItem({ label: "Add Ethereum", data: "watchlist:add:ETH" }) if the toolkit exposes it.
-
-const composer = new Composer();
+const composer = new Composer<Ctx>();
 
 composer.callbackQuery("watchlist:add:ETH", async (ctx) => {
   await ctx.answerCallbackQuery();
-  await ctx.reply("Add popular coin to watchlist");
+  const userId = ctx.from?.id;
+  if (!userId) return;
+
+  const key = String(userId);
+  const items = (await watchlists.read(key)) ?? [];
+
+  if (items.some((item) => item.ticker === "ETH")) {
+    await ctx.reply(
+      "Ethereum is already on your watchlist.",
+      { reply_markup: inlineKeyboard([[inlineButton("⬅️ Back to menu", "menu:main")]]) },
+    );
+    return;
+  }
+
+  const eth: WatchlistItem = {
+    ticker: "ETH",
+    name: "Ethereum",
+    alerts: [],
+  };
+  items.push(eth);
+  await watchlists.write(key, items);
+
+  await ctx.reply(
+    "✅ Ethereum added to your watchlist!",
+    { reply_markup: inlineKeyboard([[inlineButton("⬅️ Back to menu", "menu:main")]]) },
+  );
 });
 
 export default composer;

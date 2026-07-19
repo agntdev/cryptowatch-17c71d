@@ -1,19 +1,17 @@
 [
   {
-    "name": "/settings",
+    "name": "/settings shows current settings",
     "steps": [
       {
+        "send": { "text": "/settings" },
         "expect": [
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Configure timezone, quiet hours, summary time, and cooldown duration"
+              "text": "⚙️ Your settings:\n\n🌍 Timezone: UTC\n🔇 Cooldown: 1h\n📊 Summary: Not set\n\nTap to change:"
             }
           }
-        ],
-        "send": {
-          "text": "/settings"
-        }
+        ]
       }
     ]
   }
