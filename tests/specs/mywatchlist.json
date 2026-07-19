@@ -1,0 +1,20 @@
+[
+  {
+    "name": "/mywatchlist",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Display current watchlist with inline controls"
+            }
+          }
+        ],
+        "send": {
+          "text": "/mywatchlist"
+        }
+      }
+    ]
+  }
+]
